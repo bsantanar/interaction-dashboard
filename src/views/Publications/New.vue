@@ -74,6 +74,7 @@
                         :loading="loading"
                         v-model="year"
                         label="Year"
+                        type="number"
                     ></v-text-field>
                 </v-col>
                 <v-col cols="3">

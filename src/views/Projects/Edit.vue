@@ -108,7 +108,13 @@ export default {
             v => !!v || 'Description is required'
         ],
         linkRules: [
-            v => !!v || 'Link is required'
+            v => !!v || 'Link is required',
+            v => !! new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i').test(v) || 'Must be a valid link'
         ],
         imageRules: [
             value => !value || value.size < 300000 || 'Image size should be less than 300 kB!',

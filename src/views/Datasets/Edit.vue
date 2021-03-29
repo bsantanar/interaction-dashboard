@@ -17,17 +17,78 @@
         </v-col>
         <v-col v-if="dataset" cols="12">
         <v-form ref="form" v-model="valid">
-            <v-col
-            cols="12"
-            >
-            <v-text-field
-                v-model="name"
-                :rules="nameRules"
-                :loading="loading"
-                label="Name"
-                required
-            ></v-text-field>
-            </v-col>
+            <v-container>
+            <v-row>
+                <v-col
+                cols="4"
+                >
+                <v-text-field
+                    v-model="name"
+                    :rules="nameRules"
+                    :loading="loading"
+                    label="Name"
+                    required
+                ></v-text-field>
+                </v-col>
+                <v-col
+                cols="4"
+                >
+                    <v-combobox
+                    v-model="tags"
+                    hint="Press enter to add more tags"
+                    :rules="tagsRules"
+                    label="Tags"
+                    multiple
+                    chips
+                    ></v-combobox>
+                </v-col>
+                <v-col
+                cols="4"
+                >
+                <v-text-field
+                    v-model="version"
+                    :rules="versionRules"
+                    :loading="loading"
+                    label="Version"
+                    type="number"
+                    required
+                ></v-text-field>
+                </v-col>
+                <v-col cols="4">
+                    <v-select
+                    :rules="publicationsRules"
+                    :items="publicationsArray"
+                    :loading="loading"
+                    :disabled="loading"
+                    item-text="title"
+                    label="Select publications"
+                    dense
+                    return-object
+                    multiple
+                    chips
+                    v-model="publications"
+                    ></v-select>
+
+                </v-col>
+                <v-col
+                cols="4"
+                >
+                <v-text-field
+                    v-model="link"
+                    :rules="linkRules"
+                    :loading="loading"
+                    label="Link"
+                ></v-text-field>
+                </v-col>
+                <v-col
+                cols="4"
+                >
+                    <v-checkbox
+                    v-model="permission"
+                    label="Requires form"
+                    ></v-checkbox>
+                </v-col>
+
 
             <v-col
             cols="12"
@@ -52,6 +113,8 @@
                     Submit
                 </v-btn>
             </v-col>
+        </v-row>
+        </v-container>
         </v-form>
         </v-col>
     </v-row>
@@ -66,6 +129,7 @@ export default {
     },
     data: () => ({
         items: [],
+        publicationsArray: [],
         dataset: null,
         valid: false,
         loading: false,
@@ -73,6 +137,11 @@ export default {
         edited: false,
         name: '',
         description: '',
+        version: 1,
+        tags: [],
+        publications: [],
+        link: '',
+        permission: false,
         nameRules: [
             v => !!v || 'Name is required'
             // v => v.length <= 10 || 'Name must be less than 10 characters',
@@ -80,15 +149,48 @@ export default {
         descriptionRules: [
             v => !!v || 'Description is required'
         ],
+        tagsRules: [
+            v => !!v || 'Tags are required',
+            v=> v.length > 0 || 'Must have one'
+        ],
+        publicationsRules: [
+            v => !!v || 'Publications are required',
+            v=> v.length > 0 || 'Must have one'
+        ],
+        linkRules: [
+            v => !! new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i').test(v) || 'Must be a valid link'
+        ],
+        versionRules: [
+            v => !!v || 'Version is required'
+        ]
     }),
     watch: {
         dataset: function(item) {
             this.name = item.name
             this.description = item.description
+            this.version = item.version,
+            this.tags = item.tags,
+            this.publications = item.publications,
+            this.link = item.link,
+            this.permission = item.permission
         }
     },
     mounted() {
         this.loading = true
+        axios
+            .get(`/publication/`)
+            .then(res => {
+                this.publicationsArray = res.data.data
+            })
+            .catch(err => {
+                console.error("axios err", err)
+                this.errored = true
+            })
         axios
             .get(`/dataset/`)
             .then(res => {
@@ -98,19 +200,28 @@ export default {
             .catch(err => {
                 console.error("axios err", err)
                 this.errored = true
-                this.loading = false
             })
+            .finally(() => this.loading = false)
     },
     methods: {
         submit () {
             this.errored, this.edited = false
             if(this.$refs.form.validate()){
                 this.loading = !this.loading;
-                let {name, description, dataset} = this;
+                let {name, description, tags, version, link, permission,
+                        publications, dataset} = this;
                 axios.put(`/dataset/`,
                     {
                         condition: {_id: dataset._id},
-                        data: {name, description}
+                        data: {
+                            name, 
+                            description, 
+                            tags, 
+                            version, 
+                            link,
+                            permission, 
+                            publications: publications.map(p => p._id)
+                        }
                     })
                     .then((res) => {
                         this.items = this.items

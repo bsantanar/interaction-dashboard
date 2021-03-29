@@ -109,6 +109,7 @@
                 >
                     <v-text-field
                         v-model="link"
+                        :rules="linkRules"
                         :loading="loading"
                         label="Personal Page Url"
                     ></v-text-field>
@@ -237,7 +238,15 @@ export default {
         ],
         imageRules: [
             value => !value || value.size < 100000 || 'Image size should be less than 100 KB!',
-        ]
+        ],
+        linkRules: [
+            v => !! new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i').test(v) || 'Must be a valid link'
+        ],
     }),
     watch: {
         member: function(item) {
