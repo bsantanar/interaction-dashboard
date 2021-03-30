@@ -1,6 +1,6 @@
 module.exports = {
     apps : [{
-        name: "app",
+        name: "dashboard",
         script: "serve",
         env: {
             PM2_SERVE_PATH: './dist',
