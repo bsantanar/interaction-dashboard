@@ -8,7 +8,7 @@ const api = axios.create({
 
 api.interceptors.response.use(null, (error) => {
     console.log(error)
-    if (error.response.status === 401) {
+    if ( error.response && error.response.status === 401) {
       console.log('Error on Authorization')
       localStorage.removeItem('token')
       localStorage.removeItem('user')
