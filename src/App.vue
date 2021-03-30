@@ -47,7 +47,11 @@
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
+      <v-toolbar-title>Menu</v-toolbar-title>
+    </v-app-bar>
     <v-main>
       <v-container
         class="py-8 px-6"
