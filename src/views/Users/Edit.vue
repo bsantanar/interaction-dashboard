@@ -84,23 +84,6 @@
                     ></v-select>
 
                 </v-col>
-                <v-col
-                v-if="userType && userType.id === 2"
-                cols="6"
-                >
-                    <v-select
-                    :items="tools"
-                    :loading="loading"
-                    :disabled="loading"
-                    item-text="name"
-                    label="Select a tool"
-                    dense
-                    return-object
-                    multiple
-                    chips
-                    v-model="tool"
-                    ></v-select>
-                </v-col>
             <v-col cols="12">
                 <v-btn
                     depressed
@@ -133,12 +116,10 @@ export default {
         errored: false,
         edited: false,
         projects: [],
-        tools: [],
         name: '',
         password: null,
         email: '',
         project: [],
-        tool: [],
         userType: null,
         userTypes: [{name: 'Administrator', id: 1}, 
                     {name: 'Mantainer', id: 2}, 
@@ -152,7 +133,7 @@ export default {
             v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'Not a valid Email'
         ],
         userTypeRules: [
-            v => !!v || 'Project is required'
+            v => !!v || 'User Type is required'
             // v => v.length <= 10 || 'title must be less than 10 characters',
         ],
     }),
@@ -161,8 +142,7 @@ export default {
             this.name = item.name
             this.email = item.email
             this.userType = this.userTypes.find(o => o.id === item.userType)
-            this.project = item.projects,
-            this.tool = item.tools
+            this.project = item.projects
         }
     },
     mounted() {
@@ -189,17 +169,6 @@ export default {
                 this.errored = true
                 this.loading = false
             })
-        axios
-            .get(`/tool/`)
-            .then(res => {
-                this.tools = res.data.data
-                this.loading = false
-            })
-            .catch(err => {
-                console.error("axios err", err)
-                this.errored = true
-                this.loading = false
-            })
     },
     methods: {
         randomPassword() {
@@ -215,8 +184,7 @@ export default {
                     name, 
                     email, 
                     userType: userType.id,
-                    projects: [...this.project.map(p => p._id)],
-                    tools: [...this.tool.map(t => t._id)]
+                    projects: [...this.project.map(p => p._id)]
                 }
                 if(password) data['password'] = password
                 axios.put(`/user/`,
