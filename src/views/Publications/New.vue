@@ -12,7 +12,7 @@
                         v-model="title"
                         :rules="titleRules"
                         :loading="loading"
-                        label="Title"
+                        label="Title*"
                         required
                     ></v-text-field>
                 </v-col>
@@ -62,7 +62,7 @@
                     :loading="loading"
                     :rules="authorRules"
                     required
-                    label="Author"
+                    label="Author*"
                 ></v-text-field>
 
                 </v-col>
@@ -73,7 +73,7 @@
                         :rules="yearRules"
                         :loading="loading"
                         v-model="year"
-                        label="Year"
+                        label="Year*"
                         type="number"
                     ></v-text-field>
                 </v-col>
@@ -93,7 +93,7 @@
                     v-model="description"
                     :rules="descriptionRules"
                     :loading="loading"
-                    label="Description"
+                    label="Description*"
                     required
                 ></v-text-field>
                 </v-col>

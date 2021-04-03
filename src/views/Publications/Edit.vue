@@ -26,11 +26,26 @@
                         v-model="title"
                         :rules="titleRules"
                         :loading="loading"
-                        label="Title"
+                        label="Title*"
                         required
                     ></v-text-field>
                 </v-col>
                 <v-col cols="4">
+
+                    <v-select
+                    :rules="categoryRules"
+                    :items="categories"
+                    :loading="loading"
+                    :disabled="loading"
+                    item-text="name"
+                    label="Select a category"
+                    dense
+                    return-object
+                    solo
+                    v-model="category"
+                    ></v-select>
+                </v-col>
+                <v-col cols="6">
                     <v-select
                     :items="projects"
                     :loading="loading"
@@ -46,49 +61,41 @@
 
                 </v-col>
                 <v-col cols="6">
-                    <v-select
-                    :rules="categoryRules"
-                    :items="categories"
-                    :loading="loading"
-                    :disabled="loading"
-                    item-text="name"
-                    label="Select a category"
-                    dense
-                    return-object
-                    solo
-                    v-model="category"
-                    ></v-select>
+                    <v-text-field
+                        :loading="loading"
+                        v-model="doi"
+                        label="DOI"
+                    ></v-text-field>
+                </v-col>
+                <v-col
+                cols="6"
+                >
+                    <v-text-field
+                        v-model="author"
+                        :loading="loading"
+                        :rules="authorRules"
+                        required
+                        label="Author*"
+                    ></v-text-field>
+                </v-col>
+                <v-col>
+                    <v-text-field
+                        :rules="yearRules"
+                        :loading="loading"
+                        v-model="year"
+                        label="Year*"
+                        type="number"
+                    ></v-text-field>
 
                 </v-col>
-                <v-col cols="6">
+                <v-col>
+                    
                 <v-text-field
                     v-model="editorial"
                     :loading="loading"
                     required
                     label="Editorial"
                 ></v-text-field>
-
-                </v-col>
-                <v-col
-                cols="6"
-                >
-                    <v-text-field
-                        :rules="yearRules"
-                        :loading="loading"
-                        v-model="year"
-                        label="Year"
-                        type="number"
-                    ></v-text-field>
-                </v-col>
-                <v-col>
-                <v-text-field
-                    v-model="author"
-                    :loading="loading"
-                    :rules="authorRules"
-                    required
-                    label="Author"
-                ></v-text-field>
-
                 </v-col>
                 <v-col
                 cols="12"
@@ -97,7 +104,7 @@
                     v-model="description"
                     :rules="descriptionRules"
                     :loading="loading"
-                    label="Description"
+                    label="Description*"
                     required
                 ></v-text-field>
                 </v-col>
@@ -141,6 +148,7 @@ export default {
         editorial: '',
         category: null,
         author: '',
+        doi: '',
         project: [],
         categories: [],
         titleRules: [
@@ -175,6 +183,7 @@ export default {
             // this.tool = item.toolsId
             this.category = item.category
             this.editorial = item.editorial
+            this.doi = item.doi
         }
     },
     mounted() {

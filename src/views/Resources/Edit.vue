@@ -26,7 +26,7 @@
                         v-model="title"
                         :rules="titleRules"
                         :loading="loading"
-                        label="Title"
+                        label="Title*"
                         required
                     ></v-text-field>
                 </v-col>
@@ -55,7 +55,7 @@
                     v-model="description"
                     :rules="descriptionRules"
                     :loading="loading"
-                    label="Description"
+                    label="Description*"
                     required
                 ></v-text-field>
                 </v-col>

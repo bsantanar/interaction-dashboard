@@ -26,7 +26,7 @@
                         v-model="title"
                         :rules="titleRules"
                         :loading="loading"
-                        label="Title"
+                        label="Title*"
                         required
                     ></v-text-field>
                 </v-col>
@@ -37,7 +37,7 @@
                     :loading="loading"
                     :disabled="loading"
                     item-text="name"
-                    label="Select a project"
+                    label="Select a project*"
                     dense
                     return-object
                     solo
@@ -63,7 +63,7 @@
                     :loading="loading"
                     :disabled="loading"
                     item-text="name"
-                    label="Select a category"
+                    label="Select a category*"
                     dense
                     return-object
                     solo
@@ -133,7 +133,7 @@
                     :rules="descriptionRules"
                     :loading="loading"
                     rows="2"
-                    label="Description"
+                    label="Description*"
                     required
                 ></v-textarea>
                 </v-col>

@@ -23,7 +23,7 @@
                 v-model="name"
                 :rules="nameRules"
                 :loading="loading"
-                label="Name"
+                label="Name*"
                 required
             ></v-text-field>
             </v-col>

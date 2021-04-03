@@ -26,7 +26,7 @@
                         v-model="fullName"
                         :rules="fullNameRules"
                         :loading="loading"
-                        label="Full Name"
+                        label="Full Name*"
                         required
                     ></v-text-field>
                 </v-col>
@@ -164,7 +164,7 @@
                     v-model="description"
                     :loading="loading"
                     rows="2"
-                    label="Description"
+                    label="Description*"
                     required
                 ></v-textarea>
                 </v-col>

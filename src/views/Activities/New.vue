@@ -12,7 +12,7 @@
                         v-model="title"
                         :rules="titleRules"
                         :loading="loading"
-                        label="Title"
+                        label="Title*"
                         required
                     ></v-text-field>
                 </v-col>
@@ -118,7 +118,7 @@
                     :rules="descriptionRules"
                     :loading="loading"
                     rows="2"
-                    label="Description"
+                    label="Description*"
                     required
                 ></v-textarea>
                 </v-col>
