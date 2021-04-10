@@ -19,7 +19,7 @@
                         Title
                     </th>
                     <th class="text-left">
-                        Category
+                        Categories
                     </th>
                     <th class="text-left">
                         Date
@@ -35,7 +35,7 @@
                     :key="item.name"
                     >
                     <td>{{ item.title }}</td>
-                    <td>{{ item.category.name }}</td>
+                    <td>{{ item.category.map(c => c.name) }}</td>
                     <td>{{ item.date }}</td>
                     <td>{{ item._id }}</td>
                     </tr>

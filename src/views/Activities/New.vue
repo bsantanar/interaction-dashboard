@@ -52,7 +52,8 @@
                     label="Select a category"
                     dense
                     return-object
-                    solo
+                    multiple
+                    chips
                     v-model="category"
                     ></v-select>
 
@@ -160,7 +161,7 @@ export default {
         title: '',
         description: '',
         link: '',
-        category: null,
+        category: [],
         date: new Date().toISOString().substr(0, 10),
         project: null,
         titleRules: [
@@ -175,19 +176,19 @@ export default {
             v => !!v || 'Description is required'
         ],
         categoryRules: [
-            v => !!v || 'Category is required'
+            v => v.length > 0 || 'Must have one category'
         ],
         imageRules: [
             value => !value || value.size < 100000 || 'Image size should be less than 100 KB!',
         ],
-        // linkRules: [
-        //     v => !! new RegExp('^(https?:\\/\\/)?'+ // protocol
-        //     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-        //     '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-        //     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-        //     '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-        //     '(\\#[-a-z\\d_]*)?$','i').test(v) || 'Must be a valid link'
-        // ],
+        linkRules: [
+            v => v && v.length > 0 ? !! new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i').test(v) || 'Must be a valid link' : true
+        ],
     }),
     mounted() {
         this.loading = true
@@ -229,7 +230,7 @@ export default {
                 let data = {
                         title, 
                         description,
-                        category: category._id,
+                        category: category.map(c => c._id),
                         projectId: project ? project._id : null,
                         // toolId: tool? tool._id : null,
                         date,

@@ -173,6 +173,7 @@ export default {
                     .then(() => {
                         this.edited = true
                         this.$refs.form.reset()
+                        this.project = null
                     })
                     .catch(err => {
                         console.error("error", err)

@@ -166,6 +166,7 @@ export default {
                                     res.data.data : i)
                         this.edited = true
                         this.$refs.form.reset()
+                        this.resource = null
                     })
                     .catch(err => {
                         console.error("error", err)

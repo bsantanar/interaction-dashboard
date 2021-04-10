@@ -26,7 +26,8 @@
                     label="Select a category"
                     dense
                     return-object
-                    solo
+                    multiple
+                    chips
                     v-model="category"
                     ></v-select>
 
@@ -135,7 +136,7 @@ export default {
         author: '',
         editorial: '',
         doi: '',
-        category: null,
+        category: [],
         project: [],
         categories: [],
         titleRules: [
@@ -146,7 +147,7 @@ export default {
             v => !!v || 'Description is required'
         ],
         categoryRules: [
-            v => !!v || 'Category is required'
+            v => v.length > 0 || 'Must have one category'
         ],
         projectRules: [
             v => !!v || 'Project is required',
@@ -200,7 +201,7 @@ export default {
                         author, 
                         year,
                         editorial,
-                        category: category._id,
+                        category: category.map(c => c._id),
                         doi,
                         projectId: project.map(p => p._id)
                     })

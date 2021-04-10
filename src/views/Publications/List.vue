@@ -28,7 +28,7 @@
                         Category
                     </th>
                     <th class="text-left">
-                        Id
+                        Projects
                     </th>
                     </tr>
                 </thead>
@@ -40,8 +40,8 @@
                     <td>{{ item.title }}</td>
                     <td>{{ item.year }}</td>
                     <td>{{ item.author }}</td>
-                    <td>{{ item.category.name }}</td>
-                    <td>{{ item._id }}</td>
+                    <td>{{ item.category.map(c => c.name) }}</td>
+                    <td>{{ item.projectId.map(p => p.name) }}</td>
                     </tr>
                 </tbody>
                 </template>

@@ -41,7 +41,8 @@
                     label="Select a category"
                     dense
                     return-object
-                    solo
+                    multiple
+                    chips
                     v-model="category"
                     ></v-select>
                 </v-col>
@@ -146,7 +147,7 @@ export default {
         title: '',
         description: '',
         editorial: '',
-        category: null,
+        category: [],
         author: '',
         doi: '',
         project: [],
@@ -159,7 +160,7 @@ export default {
             v => !!v || 'Description is required'
         ],
         categoryRules: [
-            v => !!v || 'Category is required'
+            v => v.length > 0 || 'Must have one category'
         ],
         yearRules: [
             value => !!value || 'Year is required',
@@ -229,7 +230,7 @@ export default {
                     description,
                     year,
                     author,
-                    category: category._id,
+                    category: category.map(c => c._id),
                     editorial,
                     projectId: project.map(p => p._id)
                 }
@@ -241,6 +242,7 @@ export default {
                     .then(() => {
                         this.edited = true
                         this.$refs.form.reset()
+                        this.publication = null
                     })
                     .catch(err => {
                         console.error("error", err)

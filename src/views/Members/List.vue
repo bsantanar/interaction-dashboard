@@ -21,6 +21,21 @@
                     <th class="text-left">
                         Degree
                     </th>
+                    <th class="text-left">
+                        Active
+                    </th>
+                    <th class="text-left">
+                        Email
+                    </th>
+                    <th class="text-left">
+                        Contribution Date
+                    </th>
+                    <th class="text-left">
+                        Projects
+                    </th>
+                    <th class="text-left">
+                        Categories
+                    </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,6 +45,11 @@
                     >
                     <td>{{ item.fullName }}</td>
                     <td>{{ item.degree }}</td>
+                    <td>{{ item.active }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.contributionDate }}</td>
+                    <td>{{ item.projectsIds.map(p => p.name) }}</td>
+                    <td>{{ item.category.map(c => c.name) }}</td>
                     </tr>
                 </tbody>
                 </template>
