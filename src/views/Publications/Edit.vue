@@ -95,7 +95,7 @@
                     v-model="editorial"
                     :loading="loading"
                     required
-                    label="Editorial"
+                    label="Index"
                 ></v-text-field>
                 </v-col>
                 <v-col
@@ -105,7 +105,7 @@
                     v-model="description"
                     :rules="descriptionRules"
                     :loading="loading"
-                    label="Description*"
+                    label="Details (Proceedings, Journal, Location, Editorial, etc.) in APA Style*"
                     required
                 ></v-text-field>
                 </v-col>
@@ -169,8 +169,7 @@ export default {
             value => !!value || 'Author is required'
         ],
         projectRules: [
-            v => !!v || 'Project is required',
-            v => v.length > 0 || 'Must have one project'
+            v => !!v || 'Project is required'
             // v => v.length <= 10 || 'title must be less than 10 characters',
         ],
     }),
