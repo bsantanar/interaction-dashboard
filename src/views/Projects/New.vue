@@ -7,7 +7,7 @@
             <v-row>
                 <v-col
                 cols="12"
-                lg="4"
+                lg="5"
                 >
                 <v-text-field
                     v-model="name"
@@ -19,7 +19,7 @@
                 </v-col>
                 <v-col
                 cols="12"
-                lg="4"
+                lg="5"
                 >
                 <v-text-field
                     v-model="link"
@@ -40,18 +40,41 @@
                         label="File input"
                     ></v-file-input>
                 </v-col>
+                <v-col
+                cols="2"
+                >
+                    <v-text-field
+                        :rules="yearRules"
+                        :loading="loading"
+                        v-model="yearInit"
+                        label="Start Year*"
+                        type="number"
+                    ></v-text-field>
+                </v-col>
+                <v-col
+                cols="2"
+                >
+                    <v-text-field
+                        :loading="loading"
+                        v-model="yearEnd"
+                        label="End Year"
+                        type="number"
+                    ></v-text-field>
+                </v-col>
 
                 <v-col
                 cols="12"
-                sm="8"
+                sm="10"
                 >
-                <v-text-field
+                <v-textarea
+                    counter
                     v-model="description"
                     :rules="descriptionRules"
                     :loading="loading"
                     label="Description*"
                     required
-                ></v-text-field>
+                    rows="3"
+                ></v-textarea>
                 </v-col>
                 <v-col cols="6">
                     <v-btn
@@ -84,6 +107,8 @@ export default {
         loading: false,
         errored: false,
         created: false,
+        yearInit: null,
+        yearEnd: null,
         name: '',
         description: '',
         link: '',
@@ -94,6 +119,9 @@ export default {
         ],
         descriptionRules: [
             v => !!v || 'Description is required'
+        ],
+        yearRules: [
+            v => !!v || 'Start year is required'
         ],
         linkRules: [
             v => !!v || 'Link is required',
@@ -121,11 +149,14 @@ export default {
             this.errored, this.created = false
             if(this.$refs.form.validate()){
                 this.loading = !this.loading;
-                let {name, description, link, image} = this;
+                let {name, description, link, 
+                    image, yearInit, yearEnd} = this;
                 let data = {
                     name,
                     description,
-                    link
+                    link,
+                    yearInit,
+                    yearEnd: yearEnd ? yearEnd : null
                 }
                 if(image){
                     let fileToBase64 = await this.toBase64(image)
