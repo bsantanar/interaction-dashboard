@@ -229,12 +229,10 @@ export default {
             v => v.length > 0 || 'Must have one category'
         ],
         emailRules: [
-            v => !!v || 'Email is required',
-            v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'Not a valid Email'
+            v => v && v.length > 0 ? /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'Not a valid Email' : true
         ],
         projectRules: [
-            v => !!v || 'Project is required',
-            v => v.length > 0 || 'Must be in one project'
+            v => !!v || 'Project is required'
             // v => v.length <= 10 || 'title must be less than 10 characters',
         ],
         imageRules: [
