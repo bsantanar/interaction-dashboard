@@ -32,15 +32,15 @@
                 </v-col>
                 <v-col cols="6">
                     <v-select
-                    :rules="projectRules"
                     :items="projects"
                     :loading="loading"
                     :disabled="loading"
                     item-text="name"
-                    label="Select a project*"
+                    label="Select a project"
                     dense
                     return-object
-                    solo
+                    multiple
+                    chips
                     v-model="project"
                     ></v-select>
 
@@ -179,14 +179,10 @@ export default {
         category: [],
         link: '',
         date: null,
-        project: null,
+        project: [],
         categories: [],
         titleRules: [
             v => !!v || 'Title is required'
-            // v => v.length <= 10 || 'title must be less than 10 characters',
-        ],
-        projectRules: [
-            v => !!v || 'Project is required'
             // v => v.length <= 10 || 'title must be less than 10 characters',
         ],
         descriptionRules: [
@@ -267,7 +263,7 @@ export default {
                     description,
                     link,
                     date,
-                    projectId: project? project._id : null,
+                    projectId: project.map(p => p._id),
                     // toolId: tool? tool._id : null,
                     category: category.map(c => c._id)
                 }
@@ -280,7 +276,10 @@ export default {
                         condition: {_id: activity._id},
                         data
                     })
-                    .then(() => {
+                    .then(res => {
+                        this.items = this.items
+                            .map(i => res.data.data._id == i._id ? 
+                                    res.data.data : i)
                         this.edited = true
                         this.$refs.form.reset()
                         this.activity = null

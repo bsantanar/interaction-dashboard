@@ -18,7 +18,6 @@
                 </v-col>
                 <v-col cols="6">
                     <v-select
-                    :rules="projectRules"
                     :items="items"
                     :loading="loading"
                     :disabled="loading"
@@ -26,7 +25,8 @@
                     label="Select a project"
                     dense
                     return-object
-                    solo
+                    multiple
+                    chips
                     v-model="project"
                     ></v-select>
 
@@ -163,13 +163,9 @@ export default {
         link: '',
         category: [],
         date: new Date().toISOString().substr(0, 10),
-        project: null,
+        project: [],
         titleRules: [
             v => !!v || 'Title is required'
-            // v => v.length <= 10 || 'title must be less than 10 characters',
-        ],
-        projectRules: [
-            v => !!v || 'Project is required'
             // v => v.length <= 10 || 'title must be less than 10 characters',
         ],
         descriptionRules: [
@@ -231,8 +227,7 @@ export default {
                         title, 
                         description,
                         category: category.map(c => c._id),
-                        projectId: project ? project._id : null,
-                        // toolId: tool? tool._id : null,
+                        projectId: project.map(p => p._id),
                         date,
                         link
                 }

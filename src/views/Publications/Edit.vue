@@ -238,7 +238,10 @@ export default {
                         condition: {_id: publication._id},
                         data
                     })
-                    .then(() => {
+                    .then(res => {
+                        this.items = this.items
+                            .map(i => res.data.data._id == i._id ? 
+                                    res.data.data : i)
                         this.edited = true
                         this.$refs.form.reset()
                         this.publication = null
