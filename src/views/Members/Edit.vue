@@ -323,6 +323,7 @@ export default {
                         this.items = this.items
                             .map(i => res.data.data._id == i._id ? 
                                     res.data.data : i)
+                        console.log(this.items)
                         this.edited = true
                         this.$refs.form.reset()
                         this.member = null

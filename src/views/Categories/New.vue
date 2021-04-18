@@ -17,7 +17,7 @@
                 ></v-text-field>
                 </v-col>
 
-                <v-col cols="6">
+                <v-col cols="3">
                     <v-select
                     :rules="sectionRules"
                     :items="sections"
@@ -29,6 +29,17 @@
                     v-model="section"
                     ></v-select>
 
+                </v-col>
+                <v-col
+                cols="3"
+                >
+                    <v-text-field
+                        :rules="priorityRules"
+                        :loading="loading"
+                        v-model="priority"
+                        label="Priority"
+                        type="number"
+                    ></v-text-field>
                 </v-col>
                 <v-col>
                     <v-btn
@@ -63,6 +74,7 @@ export default {
         created: false,
         name: '',
         section: '',
+        priority: 1,
         sections: ['Publication', 'Activity', 'Member'],
         nameRules: [
             v => !!v || 'Name is required'
@@ -71,15 +83,18 @@ export default {
         sectionRules: [
             v => !!v || 'Description is required'
         ],
+        priorityRules: [
+            v => v >= 1 || 'Priority should be greater than 0'
+        ]
     }),
     methods: {
         submit () {
             this.errored, this.created = false
             if(this.$refs.form.validate()){
                 this.loading = !this.loading;
-                let {name, section} = this;
+                let {name, section, priority} = this;
                 axios.post(`/category/`,
-                    {name, section})
+                    {name, section, priority})
                     .then(() => {
                         this.created = true
                         this.$refs.form.reset()
