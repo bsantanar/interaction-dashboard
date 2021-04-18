@@ -20,7 +20,7 @@
             <v-container>
             <v-row>
                 <v-col
-                cols="5"
+                cols="4"
                 >
                 <v-text-field
                     v-model="name"
@@ -31,7 +31,7 @@
                 ></v-text-field>
                 </v-col>
                 <v-col
-                cols="5"
+                cols="4"
                 >
                 <v-text-field
                     v-model="link"
@@ -40,6 +40,14 @@
                     label="Project url"
                     required
                 ></v-text-field>
+                </v-col>
+                <v-col
+                cols="3"
+                >
+                    <v-checkbox
+                    v-model="personalPage"
+                    label="Is A Personal Page?"
+                    ></v-checkbox>
                 </v-col>
                 <v-col
                 cols="6"
@@ -125,6 +133,7 @@ export default {
         description: '',
         link: '',
         image: null,
+        personalPage: false,
         nameRules: [
             v => !!v || 'Name is required'
             // v => v.length <= 10 || 'Name must be less than 10 characters',
@@ -155,6 +164,7 @@ export default {
             this.link = item.link
             this.yearInit = item.yearInit
             this.yearEnd = item.yearEnd
+            this.personalPage = item.personalPage || false
         }
     },
     mounted() {
@@ -185,13 +195,14 @@ export default {
             if(this.$refs.form.validate()){
                 this.loading = !this.loading;
                 let {name, description, link, image, 
-                    project, yearInit, yearEnd} = this;
+                    project, yearInit, yearEnd, personalPage} = this;
                 let data = {
                     name,
                     description,
                     link,
                     yearInit,
-                    yearEnd: yearEnd ? yearEnd : null
+                    yearEnd: yearEnd ? yearEnd : null,
+                    personalPage
                 }
                 if(image){
                     let fileToBase64 = await this.toBase64(image)
@@ -202,7 +213,10 @@ export default {
                         condition: {_id: project._id},
                         data
                     })
-                    .then(() => {
+                    .then(res => {
+                        this.items = this.items
+                            .map(i => res.data.data._id == i._id ? 
+                                    res.data.data : i)
                         this.edited = true
                         this.$refs.form.reset()
                         this.project = null
