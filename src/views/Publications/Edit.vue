@@ -223,7 +223,7 @@ export default {
             if(this.$refs.form.validate()){
                 this.loading = !this.loading;
                 let {title, description, publication, year, 
-                    author, project, editorial, category} = this;
+                    author, project, editorial, category, doi} = this;
                 let data = {
                     title, 
                     description,
@@ -231,7 +231,8 @@ export default {
                     author,
                     category: category.map(c => c._id),
                     editorial,
-                    projectId: project.map(p => p._id)
+                    projectId: project.map(p => p._id),
+                    doi
                 }
                 axios.put(`/publication/`,
                     {
