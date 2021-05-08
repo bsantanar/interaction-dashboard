@@ -22,6 +22,9 @@
                         Description
                     </th>
                     <th class="text-left">
+                        Link
+                    </th>
+                    <th class="text-left">
                         Id
                     </th>
                     </tr>
@@ -33,6 +36,7 @@
                     >
                     <td>{{ item.name }}</td>
                     <td>{{ item.description }}</td>
+                    <td>{{ item.link }}</td>
                     <td>{{ item._id }}</td>
                     </tr>
                 </tbody>
